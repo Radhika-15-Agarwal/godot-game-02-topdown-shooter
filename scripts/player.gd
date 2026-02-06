@@ -28,4 +28,6 @@ func shoot():
 	
 	bullet.global_position = global_position + bullet.direction * bullet_spawn_offset
 	
-	
+func die():
+	print("GAME OVER")
+	get_tree().paused = true
