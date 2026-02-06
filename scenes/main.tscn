@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dnjh8dhn047ix" path="res://scripts/player.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://co8q83foud3t0" path="res://scenes/bullet.tscn" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://cuh6oo2wlcu8m" path="res://scripts/enemy_spawner.gd" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cl7ikkckqtv0i" path="res://scenes/enemy.tscn" id="3_sugp2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0xm2m"]
 radius = 12.0
@@ -24,5 +26,7 @@ shape = SubResource("CapsuleShape2D_0xm2m")
 texture = SubResource("PlaceholderTexture2D_h2yge")
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1744339680]
+script = ExtResource("3_jyhfs")
+enemy_scene = ExtResource("3_sugp2")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1416654967]

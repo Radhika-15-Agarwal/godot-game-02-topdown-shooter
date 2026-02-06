@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var speed := 250.0
 @export var bullet_scene: PackedScene
-
+@export var bullet_spawn_offset := 40.0
 
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO
@@ -23,7 +23,9 @@ func shoot():
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
-	bullet.global_position = global_position
-	
 	var mouse_pos = get_global_mouse_position()
 	bullet.direction = (mouse_pos - global_position).normalized()
+	
+	bullet.global_position = global_position + bullet.direction * bullet_spawn_offset
+	
+	
