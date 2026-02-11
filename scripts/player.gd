@@ -4,13 +4,22 @@ extends CharacterBody2D
 @export var speed := 250.0
 @export var bullet_scene: PackedScene
 @export var bullet_spawn_offset := 40.0
-@onready var score_label = get_tree().get_first_node_in_group("score_label")
-@onready var game_over_label = get_tree().get_first_node_in_group("game_over_label")
+@export var fire_rate := 0.2   # seconds between shots
+
+var fire_timer := 0.0
 
 var score := 0
 var is_dead := false
 
 func _physics_process(delta: float) -> void:	
+	
+	fire_timer -= delta
+	
+	if Input.is_action_pressed("shoot") and fire_timer <= 0:
+		shoot()
+		fire_timer = fire_rate
+	
+	look_at(get_global_mouse_position())
 	
 	var direction := Vector2.ZERO
 	
@@ -21,10 +30,7 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * speed
 	move_and_slide()
 	
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		shoot()
-		
+	
 func shoot():
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
@@ -40,15 +46,7 @@ func die():
 
 	is_dead = true
 	
-	if game_over_label:
-		game_over_label.visible = true
-		
 	GameManager.game_over()
-		
-func add_score(amount := 1):
-		score += amount
-		update_score_ui()
 
-func update_score_ui():
-	if score_label:
-		score_label.text = "Score: %d" % score
+func add_score(amount := 1):
+	GameManager.score += amount
