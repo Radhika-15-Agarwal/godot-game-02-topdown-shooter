@@ -69,4 +69,5 @@ Press Space to Restart"
 metadata/_edit_use_anchors_ = true
 
 [node name="GameManager" type="Node" parent="." unique_id=1587456230]
+process_mode = 3
 script = ExtResource("5_tbgi4")

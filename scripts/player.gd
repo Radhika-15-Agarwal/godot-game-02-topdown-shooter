@@ -4,8 +4,14 @@ extends CharacterBody2D
 @export var speed := 250.0
 @export var bullet_scene: PackedScene
 @export var bullet_spawn_offset := 40.0
+@onready var score_label = get_tree().get_first_node_in_group("score_label")
+@onready var game_over_label = get_tree().get_first_node_in_group("game_over_label")
 
-func _physics_process(delta: float) -> void:
+var score := 0
+var is_dead := false
+
+func _physics_process(delta: float) -> void:	
+	
 	var direction := Vector2.ZERO
 	
 	direction.x = Input.get_axis("ui_left", "ui_right")
@@ -29,5 +35,20 @@ func shoot():
 	bullet.global_position = global_position + bullet.direction * bullet_spawn_offset
 	
 func die():
-	print("GAME OVER")
-	get_tree().paused = true
+	if is_dead:
+		return
+
+	is_dead = true
+	
+	if game_over_label:
+		game_over_label.visible = true
+		
+	GameManager.game_over()
+		
+func add_score(amount := 1):
+		score += amount
+		update_score_ui()
+
+func update_score_ui():
+	if score_label:
+		score_label.text = "Score: %d" % score
